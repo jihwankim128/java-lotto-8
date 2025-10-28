@@ -2,11 +2,11 @@ package lotto.domain;
 
 public enum Winning {
 
-    FIRST(2_000_000_000, 6),
-    SECOND(30_000_000, 5),
-    THIRD(1_500_000, 5),
-    FOURTH(50_000, 4),
     FIFTH(5_000, 3),
+    FOURTH(50_000, 4),
+    THIRD(1_500_000, 5),
+    SECOND(30_000_000, 5),
+    FIRST(2_000_000_000, 6),
     GROUND(0, 0);
 
     private final int amount;

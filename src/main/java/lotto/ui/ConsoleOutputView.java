@@ -41,9 +41,10 @@ public class ConsoleOutputView {
 
             int winningCount = winnings.getOrDefault(winning, 0);
             if (Winning.SECOND == winning) {
-                System.out.println(correctCount + "개 일치, 보너스 볼 일치 (" + amountFormat + ") - " + winningCount + "개");
+                System.out.println(correctCount + "개 일치, 보너스 볼 일치 (" + amountFormat + "원) - " + winningCount + "개");
+                continue;
             }
-            System.out.println(correctCount + "개 일치 (" + amountFormat + ") - " + winningCount + "개");
+            System.out.println(correctCount + "개 일치 (" + amountFormat + "원) - " + winningCount + "개");
         }
     }
 

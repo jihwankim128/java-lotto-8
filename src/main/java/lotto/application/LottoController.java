@@ -37,7 +37,7 @@ public class LottoController {
         double profit = calculateProfit(winnings);
 
         consoleOutputView.printWinningStatistics(winnings);
-        consoleOutputView.printProfitRate(profit / money);
+        consoleOutputView.printProfitRate(profit / money * 100);
     }
 
     private int readMoney() {

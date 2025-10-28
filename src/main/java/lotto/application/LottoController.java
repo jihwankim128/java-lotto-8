@@ -20,14 +20,37 @@ public class LottoController {
         this.consoleOutputView = consoleOutputView;
     }
 
+    private static double calculateProfit(Map<Winning, Integer> winnings) {
+        double profit = 0;
+        for (Winning winning : winnings.keySet()) {
+            profit += winning.getAmount() * winnings.get(winning);
+        }
+        return profit;
+    }
+
     public void run() {
-        List<List<Integer>> lotteries = buyLotto();
+        int money = readMoney();
+        List<List<Integer>> lotteries = buyLotto(money);
+        consoleOutputView.printPurchaseResult(lotteries);
 
-        Map<Winning, Integer> winning = determineWinning(lotteries);
+        Map<Winning, Integer> winnings = determineWinning(lotteries);
+        double profit = calculateProfit(winnings);
 
-        // TODO: 로또 당첨금액 계산 후 수익률
-        consoleOutputView.printWinningStatistics(winning);
-        consoleOutputView.printProfit();
+        consoleOutputView.printWinningStatistics(winnings);
+        consoleOutputView.printProfitRate(profit / money);
+    }
+
+    private int readMoney() {
+        try {
+            int money = consoleInputView.readPurchaseAmount();
+            if (money % 1000 != 0) {
+                throw new IllegalArgumentException();
+            }
+            return money;
+        } catch (IllegalArgumentException e) {
+            consoleOutputView.printError(e.getMessage());
+            return readMoney();
+        }
     }
 
     private Map<Winning, Integer> determineWinning(List<List<Integer>> lotteries) {
@@ -47,22 +70,12 @@ public class LottoController {
         return winnings;
     }
 
-    private List<List<Integer>> buyLotto() {
-        try {
-            int money = consoleInputView.readPurchaseAmount();
-            if (money % 1000 != 0) {
-                throw new IllegalArgumentException();
-            }
-            List<List<Integer>> lotteries = new ArrayList<>();
-            for (int i = 0; i < money / 1000; i++) {
-                List<Integer> lotto = Randoms.pickUniqueNumbersInRange(1, 45, 6);
-                lotteries.add(lotto);
-            }
-            consoleOutputView.printPurchaseResult(lotteries);
-            return lotteries;
-        } catch (IllegalArgumentException e) {
-            consoleOutputView.printError(e.getMessage());
-            return buyLotto();
+    private List<List<Integer>> buyLotto(int money) {
+        List<List<Integer>> lotteries = new ArrayList<>();
+        for (int i = 0; i < money / 1000; i++) {
+            List<Integer> lotto = Randoms.pickUniqueNumbersInRange(1, 45, 6);
+            lotteries.add(lotto);
         }
+        return lotteries;
     }
 }

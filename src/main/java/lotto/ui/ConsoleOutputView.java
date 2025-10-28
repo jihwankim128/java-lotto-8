@@ -46,7 +46,7 @@ public class ConsoleOutputView {
         }
     }
 
-    public void printProfit() {
-        System.out.println("총 수익율 출력입니다.");
+    public void printProfitRate(double profitRate) {
+        System.out.println("총 수익률은 " + String.format("%.1f", profitRate) + "%입니다.");
     }
 }

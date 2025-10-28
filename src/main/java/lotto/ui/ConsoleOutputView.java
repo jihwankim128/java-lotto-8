@@ -8,7 +8,7 @@ import lotto.domain.Winning;
 public class ConsoleOutputView {
 
     public void printError(String message) {
-        System.out.println(message);
+        System.out.println("[ERROR]" + message);
     }
 
     public void printPurchaseResult(List<List<Integer>> lotteries) {

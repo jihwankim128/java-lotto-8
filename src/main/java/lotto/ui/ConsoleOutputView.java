@@ -20,7 +20,7 @@ public class ConsoleOutputView {
             for (int number : lotto) {
                 sb.append(number).append(", ");
             }
-            sb.deleteCharAt(sb.lastIndexOf(", "));
+            sb.delete(sb.length() - 2, sb.length());
             sb.append("]");
             System.out.println(sb);
         }

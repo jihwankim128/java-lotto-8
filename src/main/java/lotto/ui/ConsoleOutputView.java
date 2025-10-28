@@ -24,10 +24,11 @@ public class ConsoleOutputView {
             sb.append("]");
             System.out.println(sb);
         }
-        System.out.println("구매 출력입니다");
+        System.out.println();
     }
 
     public void printWinningStatistics(Map<Winning, Integer> winnings) {
+        System.out.println();
         System.out.println("당첨 통계");
         System.out.println("---");
         for (Winning winning : Winning.values()) {

@@ -1,6 +1,9 @@
 package lotto.ui;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Map;
+import lotto.domain.Winning;
 
 public class ConsoleOutputView {
 
@@ -24,10 +27,23 @@ public class ConsoleOutputView {
         System.out.println("구매 출력입니다");
     }
 
-    public void printWinningStatistics() {
+    public void printWinningStatistics(Map<Winning, Integer> winnings) {
         System.out.println("당첨 통계");
         System.out.println("---");
-        // TODO: 통계 출력
+        for (Winning winning : Winning.values()) {
+            if (winning == Winning.GROUND) {
+                continue;
+            }
+            int correctCount = winning.getCorrectCount();
+            int amount = winning.getAmount();
+            String amountFormat = NumberFormat.getInstance().format(amount);
+
+            int winningCount = winnings.getOrDefault(winning, 0);
+            if (Winning.SECOND == winning) {
+                System.out.println(correctCount + "개 일치, 보너스 볼 일치 (" + amountFormat + ") - " + winningCount + "개");
+            }
+            System.out.println(correctCount + "개 일치 (" + amountFormat + ") - " + winningCount + "개");
+        }
     }
 
     public void printProfit() {

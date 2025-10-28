@@ -1,7 +1,11 @@
 package lotto;
 
+import lotto.application.LottoController;
+import lotto.ui.ConsoleInputView;
+import lotto.ui.ConsoleOutputView;
+
 public class Application {
     public static void main(String[] args) {
-        // TODO: 프로그램 구현
+        new LottoController(new ConsoleInputView(), new ConsoleOutputView()).run();
     }
 }

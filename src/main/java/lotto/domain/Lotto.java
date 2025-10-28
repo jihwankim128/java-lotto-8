@@ -16,5 +16,17 @@ public class Lotto {
         }
     }
 
-    // TODO: 추가 기능 구현
+    public int countWinning(Lotto lotto) {
+        int count = 0;
+        for (Integer number : lotto.numbers) {
+            if (isWinning(number)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public boolean isWinning(int number) {
+        return numbers.contains(number);
+    }
 }

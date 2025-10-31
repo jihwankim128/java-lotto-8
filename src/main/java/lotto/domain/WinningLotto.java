@@ -1,23 +1,21 @@
 package lotto.domain;
 
-import java.util.List;
-
 public class WinningLotto {
 
-    private final Lotto winningLotto;
+    private final Lotto lotto;
     private final int bonusNumber;
 
-    public WinningLotto(List<Integer> numbers, int bonusNumber) {
-        if (numbers.contains(bonusNumber)) {
+    public WinningLotto(Lotto lotto, int bonusNumber) {
+        if (lotto.match(bonusNumber)) {
             throw new IllegalArgumentException("로또 번호와 보너스 번호가 중복되었습니다.");
         }
-        this.winningLotto = new Lotto(numbers);
+        this.lotto = lotto;
         this.bonusNumber = bonusNumber;
     }
 
-    public Rank determineRank(Lotto lotto) {
-        long count = winningLotto.countMatching(lotto);
-        boolean bonus = winningLotto.match(bonusNumber);
-        return Rank.of((int) count, bonus);
+    public Rank determineRank(Lotto other) {
+        int count = lotto.countMatching(other);
+        boolean bonus = lotto.match(bonusNumber);
+        return Rank.of(count, bonus);
     }
 }

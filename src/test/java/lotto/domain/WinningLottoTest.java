@@ -11,24 +11,24 @@ class WinningLottoTest {
     @Test
     void 로또_번호와_보너스_번호가_중복되면_예외가_발생한다() {
         // given
-        List<Integer> winningNumbers = List.of(1, 2, 3, 4, 5, 6);
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
         int bonusNumber = 6;
 
         // when & then
-        assertThatThrownBy(() -> new WinningLotto(winningNumbers, bonusNumber))
+        assertThatThrownBy(() -> new WinningLotto(lotto, bonusNumber))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     void 로또_정보로_당첨_순위를_판별할_수_있다() {
         // given
-        List<Integer> winningNumbers = List.of(1, 2, 3, 4, 5, 6);
-        int bonusNumber = 7;
-        WinningLotto winningLotto = new WinningLotto(winningNumbers, bonusNumber);
         Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        int bonusNumber = 7;
+        WinningLotto winningLotto = new WinningLotto(lotto, bonusNumber);
+        Lotto other = new Lotto(List.of(1, 2, 3, 4, 5, 6));
 
         // when
-        Rank rank = winningLotto.determineRank(lotto);
+        Rank rank = winningLotto.determineRank(other);
 
         // then
         assertThat(rank).isEqualTo(Rank.FIRST);

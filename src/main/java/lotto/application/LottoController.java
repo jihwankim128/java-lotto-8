@@ -61,8 +61,8 @@ public class LottoController {
         Lotto lotto = new Lotto(winningNumbers);
 
         for (List<Integer> purchaseLotto : lotteries) {
-            int correctCount = lotto.countWinning(new Lotto(purchaseLotto));
-            boolean bonus = lotto.isWinning(bonusNumber);
+            int correctCount = lotto.countMatching(new Lotto(purchaseLotto));
+            boolean bonus = lotto.match(bonusNumber);
 
             Winning winning = Winning.of(correctCount, bonus);
             winnings.put(winning, winnings.getOrDefault(winning, 0) + 1);

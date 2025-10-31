@@ -32,17 +32,13 @@ public class Lotto {
         }
     }
 
-    public int countWinning(Lotto lotto) {
-        int count = 0;
-        for (Integer number : lotto.numbers) {
-            if (isWinning(number)) {
-                count++;
-            }
-        }
-        return count;
+    public int countMatching(Lotto other) {
+        return (int) other.numbers.stream()
+                .filter(this::match)
+                .count();
     }
 
-    public boolean isWinning(int number) {
+    public boolean match(int number) {
         return numbers.contains(number);
     }
 }

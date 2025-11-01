@@ -23,4 +23,8 @@ public class Money {
     public int calculateQuantity(int unitPrice) {
         return money / unitPrice;
     }
+
+    public int getMoney() {
+        return money;
+    }
 }

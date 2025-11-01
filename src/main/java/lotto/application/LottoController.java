@@ -1,12 +1,15 @@
 package lotto.application;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lotto.domain.Lotto;
-import lotto.domain.Winning;
+import lotto.domain.LottoGenerator;
+import lotto.domain.Lottos;
+import lotto.domain.Money;
+import lotto.domain.Rank;
+import lotto.domain.WinningLotto;
 import lotto.ui.ConsoleInputView;
 import lotto.ui.ConsoleOutputView;
 
@@ -20,62 +23,67 @@ public class LottoController {
         this.consoleOutputView = consoleOutputView;
     }
 
-    private static double calculateProfit(Map<Winning, Integer> winnings) {
-        double profit = 0;
-        for (Winning winning : winnings.keySet()) {
-            profit += winning.getAmount() * winnings.get(winning);
-        }
-        return profit;
-    }
-
     public void run() {
-        int money = readMoney();
-        List<List<Integer>> lotteries = buyLotto(money);
-        consoleOutputView.printPurchaseResult(lotteries);
+        Money money = readMoney();
+        Lottos purchaseLottos = buyLottos(money);
+        consoleOutputView.printPurchaseResult(purchaseLottos.getLottos());
 
-        Map<Winning, Integer> winnings = determineWinning(lotteries);
-        double profit = calculateProfit(winnings);
+        Lotto winningLotto = readWinningLotto();
+        int bonusNumber = readBonusNumber();
+        WinningLotto winning = new WinningLotto(winningLotto, bonusNumber);
+        Map<Rank, Integer> ranks = determineRank(purchaseLottos, winning);
+        double profit = calculateProfit(ranks);
 
-        consoleOutputView.printWinningStatistics(winnings);
-        consoleOutputView.printProfitRate(profit / money * 100);
+        consoleOutputView.printWinningStatistics(ranks);
+        consoleOutputView.printProfitRate(profit / money.getMoney() * 100);
     }
 
-    private int readMoney() {
+    private int readBonusNumber() {
+        try {
+            return consoleInputView.readBonusNumber();
+        } catch (IllegalArgumentException e) {
+            return readBonusNumber();
+        }
+    }
+
+    private Lotto readWinningLotto() {
+        try {
+            List<Integer> winningNumbers = consoleInputView.readWinningNumbers();
+            return new Lotto(winningNumbers);
+        } catch (IllegalArgumentException e) {
+            consoleOutputView.printError(e.getMessage());
+            return readWinningLotto();
+        }
+    }
+
+    private Money readMoney() {
         try {
             int money = consoleInputView.readPurchaseAmount();
-            if (money % 1000 != 0) {
-                throw new IllegalArgumentException();
-            }
-            return money;
+            return new Money(money);
         } catch (IllegalArgumentException e) {
             consoleOutputView.printError(e.getMessage());
             return readMoney();
         }
     }
 
-    private Map<Winning, Integer> determineWinning(List<List<Integer>> lotteries) {
-        List<Integer> winningNumbers = consoleInputView.readWinningNumbers();
-        int bonusNumber = consoleInputView.readBonusNumber();
-
-        Map<Winning, Integer> winnings = new HashMap<>();
-        Lotto lotto = new Lotto(winningNumbers);
-
-        for (List<Integer> purchaseLotto : lotteries) {
-            int correctCount = lotto.countMatching(new Lotto(purchaseLotto));
-            boolean bonus = lotto.match(bonusNumber);
-
-            Winning winning = Winning.of(correctCount, bonus);
-            winnings.put(winning, winnings.getOrDefault(winning, 0) + 1);
-        }
-        return winnings;
+    private Map<Rank, Integer> determineRank(Lottos lottos, WinningLotto winning) {
+        return lottos.getLottos().stream()
+                .map(winning::determineRank)
+                .filter(rank -> rank != Rank.NONE)
+                .collect(Collectors.toMap(rank -> rank, rank -> 1, Integer::sum));
     }
 
-    private List<List<Integer>> buyLotto(int money) {
-        List<List<Integer>> lotteries = new ArrayList<>();
-        for (int i = 0; i < money / 1000; i++) {
-            List<Integer> lotto = Randoms.pickUniqueNumbersInRange(1, 45, 6);
-            lotteries.add(lotto);
+    private Lottos buyLottos(Money money) {
+        LottoGenerator generator = () -> Randoms.pickUniqueNumbersInRange(1, 45, 6);
+        int quantity = money.calculateQuantity(1000);
+        return new Lottos(generator, quantity);
+    }
+
+    private double calculateProfit(Map<Rank, Integer> ranks) {
+        double profit = 0;
+        for (Rank rank : ranks.keySet()) {
+            profit += rank.getPrize() * ranks.get(rank);
         }
-        return lotteries;
+        return profit;
     }
 }

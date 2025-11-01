@@ -3,7 +3,8 @@ package lotto.ui;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
-import lotto.domain.Winning;
+import lotto.domain.Lotto;
+import lotto.domain.Rank;
 
 public class ConsoleOutputView {
 
@@ -11,13 +12,13 @@ public class ConsoleOutputView {
         System.out.println("[ERROR]" + message);
     }
 
-    public void printPurchaseResult(List<List<Integer>> lotteries) {
+    public void printPurchaseResult(List<Lotto> lottos) {
         System.out.println();
-        System.out.println(lotteries.size() + "개를 구매했습니다.");
-        for (List<Integer> lotto : lotteries) {
+        System.out.println(lottos.size() + "개를 구매했습니다.");
+        for (Lotto lotto : lottos) {
             StringBuilder sb = new StringBuilder();
             sb.append("[");
-            for (int number : lotto) {
+            for (int number : lotto.getNumbers()) {
                 sb.append(number).append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());
@@ -27,24 +28,21 @@ public class ConsoleOutputView {
         System.out.println();
     }
 
-    public void printWinningStatistics(Map<Winning, Integer> winnings) {
+    public void printWinningStatistics(Map<Rank, Integer> winnings) {
         System.out.println();
         System.out.println("당첨 통계");
         System.out.println("---");
-        for (Winning winning : Winning.values()) {
-            if (winning == Winning.GROUND) {
-                continue;
-            }
-            int correctCount = winning.getCorrectCount();
-            int amount = winning.getAmount();
-            String amountFormat = NumberFormat.getInstance().format(amount);
+        for (Rank rank : Rank.values()) {
+            int matchCount = rank.getMatchCount();
+            int prize = rank.getPrize();
+            String amountFormat = NumberFormat.getInstance().format(prize);
 
-            int winningCount = winnings.getOrDefault(winning, 0);
-            if (Winning.SECOND == winning) {
-                System.out.println(correctCount + "개 일치, 보너스 볼 일치 (" + amountFormat + "원) - " + winningCount + "개");
+            int winningCount = winnings.getOrDefault(rank, 0);
+            if (Rank.SECOND == rank) {
+                System.out.println(matchCount + "개 일치, 보너스 볼 일치 (" + amountFormat + "원) - " + winningCount + "개");
                 continue;
             }
-            System.out.println(correctCount + "개 일치 (" + amountFormat + "원) - " + winningCount + "개");
+            System.out.println(matchCount + "개 일치 (" + amountFormat + "원) - " + winningCount + "개");
         }
     }
 

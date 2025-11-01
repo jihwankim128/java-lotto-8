@@ -1,8 +1,10 @@
 package lotto.domain;
 
+import static lotto.domain.vo.Rank.FIRST;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import lotto.domain.vo.Rank;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -25,5 +27,17 @@ class RankTest {
 
         // then
         assertThat(rank).isEqualTo(expected);
+    }
+
+    @Test
+    void 상금_당첨횟수로_총_획득한_상금을_알_수_있다() {
+        // given
+        int winningCount = 5;
+
+        // when
+        long totalPrize = FIRST.calculateTotalPrize(winningCount);
+
+        // then
+        assertThat(totalPrize).isEqualTo(FIRST.getPrize() * winningCount);
     }
 }

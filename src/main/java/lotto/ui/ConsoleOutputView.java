@@ -34,7 +34,7 @@ public class ConsoleOutputView {
         System.out.println("---");
         for (Rank rank : Rank.values()) {
             int matchCount = rank.getMatchCount();
-            int prize = rank.getPrize();
+            long prize = rank.getPrize();
             String amountFormat = NumberFormat.getInstance().format(prize);
 
             int winningCount = winnings.getOrDefault(rank, 0);

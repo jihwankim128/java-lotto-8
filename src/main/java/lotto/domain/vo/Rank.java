@@ -11,11 +11,11 @@ public enum Rank {
     FIFTH(5_000, 3, false),
     NONE(0, 0, false);
 
-    private final int prize;
+    private final long prize;
     private final int matchCount;
     private final boolean bonus;
 
-    Rank(int prize, int matchCount, boolean bonus) {
+    Rank(long prize, int matchCount, boolean bonus) {
         this.prize = prize;
         this.matchCount = matchCount;
         this.bonus = bonus;
@@ -29,7 +29,7 @@ public enum Rank {
                 .orElse(NONE);
     }
 
-    public int getPrize() {
+    public long getPrize() {
         return prize;
     }
 
@@ -39,5 +39,9 @@ public enum Rank {
 
     public boolean isWinning() {
         return this != NONE;
+    }
+
+    public long calculateTotalPrize(int winningCount) {
+        return prize * winningCount;
     }
 }

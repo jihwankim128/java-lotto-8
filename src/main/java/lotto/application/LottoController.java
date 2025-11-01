@@ -1,13 +1,11 @@
 package lotto.application;
 
 import java.util.List;
-import java.util.Map;
 import lotto.domain.LottoMachine;
 import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
-import lotto.domain.vo.Rank;
 import lotto.domain.vo.WinningResult;
 import lotto.ui.ConsoleInputView;
 import lotto.ui.ConsoleOutputView;
@@ -33,17 +31,19 @@ public class LottoController {
         int bonusNumber = readBonusNumber();
         WinningNumbers winningNumbers = new WinningNumbers(winningLotto, bonusNumber);
         WinningResult winningResult = purchaseLottos.generateWinningResult(winningNumbers);
-        double profit = calculateProfit(winningResult.result());
+        double profitRatio = winningResult.calculateProfitRatio(money);
 
         outputView.printWinningStatistics(winningResult.result());
-        outputView.printProfitRate(profit / money.money() * 100);
+        outputView.printProfitRate(profitRatio);
     }
 
-    private int readBonusNumber() {
+    private Money readMoney() {
         try {
-            return inputView.readBonusNumber();
+            int money = inputView.readPurchaseAmount();
+            return new Money(money);
         } catch (IllegalArgumentException e) {
-            return readBonusNumber();
+            outputView.printError(e.getMessage());
+            return readMoney();
         }
     }
 
@@ -57,21 +57,11 @@ public class LottoController {
         }
     }
 
-    private Money readMoney() {
+    private int readBonusNumber() {
         try {
-            int money = inputView.readPurchaseAmount();
-            return new Money(money);
+            return inputView.readBonusNumber();
         } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            return readMoney();
+            return readBonusNumber();
         }
-    }
-
-    private double calculateProfit(Map<Rank, Integer> ranks) {
-        double profit = 0;
-        for (Rank rank : ranks.keySet()) {
-            profit += rank.getPrize() * ranks.get(rank);
-        }
-        return profit;
     }
 }

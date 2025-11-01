@@ -1,12 +1,14 @@
 package lotto.domain;
 
 import static lotto.domain.vo.Rank.FIRST;
+import static lotto.domain.vo.Rank.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import lotto.domain.vo.Rank;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 
 class RankTest {
 
@@ -39,5 +41,24 @@ class RankTest {
 
         // then
         assertThat(totalPrize).isEqualTo(FIRST.getPrize() * winningCount);
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = Rank.class, names = {"FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH"})
+    void 상금에_당첨된_순위인지_알_수_있다(Rank rank) {
+        // when
+        boolean winning = rank.isWinning();
+
+        // then
+        assertThat(winning).isTrue();
+    }
+
+    @Test
+    void 상금에_낙첨되었는지_알_수_있다() {
+        // when
+        boolean winning = NONE.isWinning();
+
+        // then
+        assertThat(winning).isFalse();
     }
 }

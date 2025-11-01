@@ -20,4 +20,8 @@ public record Money(int money) {
     public int calculateQuantity(int unitPrice) {
         return money / unitPrice;
     }
+
+    public double calculatePercentageOf(double part) {
+        return part / money * 100;
+    }
 }

@@ -38,4 +38,17 @@ class MoneyTest {
         // then
         assertThat(count).isEqualTo(10);
     }
+
+    @Test
+    void 비교_부분이_금액의_몇퍼센테이지인지_계산할_수_있다() {
+        // given
+        long part = 10000L;
+        Money money = new Money(1000);
+
+        // when
+        double percentage = money.calculatePercentageOf(part);
+
+        // then
+        assertThat(percentage).isEqualTo(1000);
+    }
 }

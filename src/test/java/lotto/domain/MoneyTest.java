@@ -3,6 +3,8 @@ package lotto.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import lotto.domain.vo.Money;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,6 +51,22 @@ class MoneyTest {
         double percentage = money.calculatePercentageOf(part);
 
         // then
-        assertThat(percentage).isEqualTo(1000);
+        assertThat(percentage).isEqualTo(1000.0);
+    }
+
+    @Test
+    void 최대_비교_부분과_최소_금액의_퍼센테이지_계산_정합도가_정확하다() {
+        // given
+        long part = Long.MAX_VALUE;
+        Money money = new Money(1000);
+
+        // when
+        double percentage = money.calculatePercentageOf(part);
+
+        // then
+        BigDecimal expected = BigDecimal.valueOf(part)
+                .divide(BigDecimal.valueOf(1000), MathContext.DECIMAL128)
+                .multiply(BigDecimal.valueOf(100));
+        assertThat(percentage).isEqualTo(expected.doubleValue());
     }
 }

@@ -7,12 +7,8 @@ public class Lottos {
 
     private final List<Lotto> lottos;
 
-    public Lottos(LottoGenerator lottoGenerator, int quantity) {
-        this.lottos = new ArrayList<>(quantity);
-        for (int i = 0; i < quantity; i++) {
-            List<Integer> numbers = lottoGenerator.generate();
-            lottos.add(new Lotto(numbers));
-        }
+    public Lottos(List<Lotto> lottos) {
+        this.lottos = List.copyOf(lottos);
     }
 
     public List<Lotto> getLottos() {

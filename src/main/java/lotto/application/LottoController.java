@@ -1,11 +1,10 @@
 package lotto.application;
 
-import camp.nextstep.edu.missionutils.Randoms;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lotto.domain.Lotto;
-import lotto.domain.LottoGenerator;
+import lotto.domain.LottoMachine;
 import lotto.domain.Lottos;
 import lotto.domain.Money;
 import lotto.domain.Rank;
@@ -15,18 +14,20 @@ import lotto.ui.ConsoleOutputView;
 
 public class LottoController {
 
-    private final ConsoleInputView consoleInputView;
-    private final ConsoleOutputView consoleOutputView;
+    private final ConsoleInputView inputView;
+    private final ConsoleOutputView outputView;
+    private final LottoMachine lottoMachine;
 
-    public LottoController(ConsoleInputView consoleInputView, ConsoleOutputView consoleOutputView) {
-        this.consoleInputView = consoleInputView;
-        this.consoleOutputView = consoleOutputView;
+    public LottoController(ConsoleInputView inputView, ConsoleOutputView outputView, LottoMachine lottoMachine) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.lottoMachine = lottoMachine;
     }
 
     public void run() {
         Money money = readMoney();
-        Lottos purchaseLottos = buyLottos(money);
-        consoleOutputView.printPurchaseResult(purchaseLottos.getLottos());
+        Lottos purchaseLottos = lottoMachine.issue(money);
+        outputView.printPurchaseResult(purchaseLottos.getLottos());
 
         Lotto winningLotto = readWinningLotto();
         int bonusNumber = readBonusNumber();
@@ -34,13 +35,13 @@ public class LottoController {
         Map<Rank, Integer> ranks = determineRank(purchaseLottos, winning);
         double profit = calculateProfit(ranks);
 
-        consoleOutputView.printWinningStatistics(ranks);
-        consoleOutputView.printProfitRate(profit / money.getMoney() * 100);
+        outputView.printWinningStatistics(ranks);
+        outputView.printProfitRate(profit / money.getMoney() * 100);
     }
 
     private int readBonusNumber() {
         try {
-            return consoleInputView.readBonusNumber();
+            return inputView.readBonusNumber();
         } catch (IllegalArgumentException e) {
             return readBonusNumber();
         }
@@ -48,20 +49,20 @@ public class LottoController {
 
     private Lotto readWinningLotto() {
         try {
-            List<Integer> winningNumbers = consoleInputView.readWinningNumbers();
+            List<Integer> winningNumbers = inputView.readWinningNumbers();
             return new Lotto(winningNumbers);
         } catch (IllegalArgumentException e) {
-            consoleOutputView.printError(e.getMessage());
+            outputView.printError(e.getMessage());
             return readWinningLotto();
         }
     }
 
     private Money readMoney() {
         try {
-            int money = consoleInputView.readPurchaseAmount();
+            int money = inputView.readPurchaseAmount();
             return new Money(money);
         } catch (IllegalArgumentException e) {
-            consoleOutputView.printError(e.getMessage());
+            outputView.printError(e.getMessage());
             return readMoney();
         }
     }
@@ -71,12 +72,6 @@ public class LottoController {
                 .map(winning::determineRank)
                 .filter(rank -> rank != Rank.NONE)
                 .collect(Collectors.toMap(rank -> rank, rank -> 1, Integer::sum));
-    }
-
-    private Lottos buyLottos(Money money) {
-        LottoGenerator generator = () -> Randoms.pickUniqueNumbersInRange(1, 45, 6);
-        int quantity = money.calculateQuantity(1000);
-        return new Lottos(generator, quantity);
     }
 
     private double calculateProfit(Map<Rank, Integer> ranks) {

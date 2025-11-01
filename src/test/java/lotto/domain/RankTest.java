@@ -15,6 +15,7 @@ class RankTest {
     @ParameterizedTest
     @CsvSource({
             "6, false, FIRST",
+            "6, true, FIRST",   // bonus가 true여도 1등
             "5, true, SECOND",  // 2등만 보너스를 확인
             "5, false, THIRD",
             "4, false, FOURTH",

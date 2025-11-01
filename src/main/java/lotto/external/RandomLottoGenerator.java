@@ -2,8 +2,8 @@ package lotto.external;
 
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.List;
-import lotto.domain.Lotto;
 import lotto.domain.LottoGenerator;
+import lotto.domain.vo.Lotto;
 
 public class RandomLottoGenerator implements LottoGenerator {
 

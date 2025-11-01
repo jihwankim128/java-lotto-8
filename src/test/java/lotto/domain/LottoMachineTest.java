@@ -3,6 +3,9 @@ package lotto.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import lotto.domain.vo.Lotto;
+import lotto.domain.vo.Lottos;
+import lotto.domain.vo.Money;
 import org.junit.jupiter.api.Test;
 
 class LottoMachineTest {
@@ -19,6 +22,6 @@ class LottoMachineTest {
         Lottos purchaseLottos = machine.issue(money);
 
         // then: 10장이 구매된다
-        assertThat(purchaseLottos.getLottos()).hasSize(10);
+        assertThat(purchaseLottos.lottos()).hasSize(10);
     }
 }

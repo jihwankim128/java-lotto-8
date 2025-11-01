@@ -3,8 +3,8 @@ package lotto.ui;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
-import lotto.domain.Lotto;
-import lotto.domain.Rank;
+import lotto.domain.vo.Lotto;
+import lotto.domain.vo.Rank;
 
 public class ConsoleOutputView {
 
@@ -18,7 +18,7 @@ public class ConsoleOutputView {
         for (Lotto lotto : lottos) {
             StringBuilder sb = new StringBuilder();
             sb.append("[");
-            for (int number : lotto.getNumbers()) {
+            for (int number : lotto.numbers()) {
                 sb.append(number).append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());

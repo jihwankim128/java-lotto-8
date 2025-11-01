@@ -3,12 +3,12 @@ package lotto.application;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lotto.domain.Lotto;
 import lotto.domain.LottoMachine;
-import lotto.domain.Lottos;
-import lotto.domain.Money;
-import lotto.domain.Rank;
 import lotto.domain.WinningLotto;
+import lotto.domain.vo.Lotto;
+import lotto.domain.vo.Lottos;
+import lotto.domain.vo.Money;
+import lotto.domain.vo.Rank;
 import lotto.ui.ConsoleInputView;
 import lotto.ui.ConsoleOutputView;
 
@@ -27,7 +27,7 @@ public class LottoController {
     public void run() {
         Money money = readMoney();
         Lottos purchaseLottos = lottoMachine.issue(money);
-        outputView.printPurchaseResult(purchaseLottos.getLottos());
+        outputView.printPurchaseResult(purchaseLottos.lottos());
 
         Lotto winningLotto = readWinningLotto();
         int bonusNumber = readBonusNumber();
@@ -36,7 +36,7 @@ public class LottoController {
         double profit = calculateProfit(ranks);
 
         outputView.printWinningStatistics(ranks);
-        outputView.printProfitRate(profit / money.getMoney() * 100);
+        outputView.printProfitRate(profit / money.money() * 100);
     }
 
     private int readBonusNumber() {
@@ -68,7 +68,7 @@ public class LottoController {
     }
 
     private Map<Rank, Integer> determineRank(Lottos lottos, WinningLotto winning) {
-        return lottos.getLottos().stream()
+        return lottos.lottos().stream()
                 .map(winning::determineRank)
                 .filter(rank -> rank != Rank.NONE)
                 .collect(Collectors.toMap(rank -> rank, rank -> 1, Integer::sum));

@@ -1,5 +1,8 @@
 package lotto.domain;
 
+import lotto.domain.vo.Lotto;
+import lotto.domain.vo.Rank;
+
 public class WinningLotto {
 
     private final Lotto lotto;

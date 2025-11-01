@@ -2,6 +2,9 @@ package lotto.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import lotto.domain.vo.Lotto;
+import lotto.domain.vo.Lottos;
+import lotto.domain.vo.Money;
 
 public class LottoMachine {
 

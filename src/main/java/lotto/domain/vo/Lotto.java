@@ -1,19 +1,16 @@
-package lotto.domain;
+package lotto.domain.vo;
 
 import java.util.HashSet;
 import java.util.List;
 
-public class Lotto {
+public record Lotto(List<Integer> numbers) {
 
     private static final int LOTTO_NUMBER_COUNT = 6;
     private static final int MIN_LOTTO_NUMBER_RANGE = 1;
     private static final int MAX_LOTTO_NUMBER_RANGE = 45;
 
-    private final List<Integer> numbers;
-
-    public Lotto(List<Integer> numbers) {
+    public Lotto {
         validate(numbers);
-        this.numbers = numbers;
     }
 
     private void validate(List<Integer> numbers) {
@@ -40,9 +37,5 @@ public class Lotto {
 
     public boolean match(int number) {
         return numbers.contains(number);
-    }
-
-    public List<Integer> getNumbers() {
-        return numbers;
     }
 }

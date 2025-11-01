@@ -18,7 +18,7 @@ public class ConsoleOutputView {
         for (Lotto lotto : lottos) {
             StringBuilder sb = new StringBuilder();
             sb.append("[");
-            for (int number : lotto.numbers()) {
+            for (int number : lotto.getNumbers()) {
                 sb.append(number).append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());

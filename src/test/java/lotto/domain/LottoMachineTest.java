@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 class LottoMachineTest {
 
-    private final LottoGenerator generator = () -> new Lotto(List.of(1, 2, 3, 4, 5, 6));
+    private final LottoGenerator generator = () -> Lotto.generateOf(List.of(1, 2, 3, 4, 5, 6));
     private final LottoMachine machine = new LottoMachine(generator);
 
     @Test

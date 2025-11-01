@@ -4,6 +4,7 @@ import java.util.List;
 import lotto.domain.LottoMachine;
 import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
+import lotto.domain.vo.LottoNumber;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
 import lotto.domain.vo.WinningResult;
@@ -28,7 +29,7 @@ public class LottoController {
         outputView.printPurchaseResult(purchaseLottos.lottos());
 
         Lotto winningLotto = readWinningLotto();
-        int bonusNumber = readBonusNumber();
+        LottoNumber bonusNumber = readBonusNumber();
         WinningNumbers winningNumbers = new WinningNumbers(winningLotto, bonusNumber);
         WinningResult winningResult = purchaseLottos.generateWinningResult(winningNumbers);
         double profitRatio = winningResult.calculateProfitRatio(money);
@@ -50,16 +51,17 @@ public class LottoController {
     private Lotto readWinningLotto() {
         try {
             List<Integer> winningNumbers = inputView.readWinningNumbers();
-            return new Lotto(winningNumbers);
+            return Lotto.generateOf(winningNumbers);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
             return readWinningLotto();
         }
     }
 
-    private int readBonusNumber() {
+    private LottoNumber readBonusNumber() {
         try {
-            return inputView.readBonusNumber();
+            int bonusNumber = inputView.readBonusNumber();
+            return new LottoNumber(bonusNumber);
         } catch (IllegalArgumentException e) {
             return readBonusNumber();
         }

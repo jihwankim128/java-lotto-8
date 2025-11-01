@@ -14,6 +14,6 @@ public class RandomLottoGenerator implements LottoGenerator {
     @Override
     public Lotto generate() {
         List<Integer> numbers = Randoms.pickUniqueNumbersInRange(MIN_RANGE, MAX_RANGE, PICK_COUNT);
-        return new Lotto(numbers);
+        return Lotto.generateOf(numbers);
     }
 }

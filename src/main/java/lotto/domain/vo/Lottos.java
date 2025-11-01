@@ -14,6 +14,7 @@ public record Lottos(List<Lotto> lottos) {
     public WinningResult generateWinningResult(WinningNumbers winningNumbers) {
         Map<Rank, Integer> matchResult = lottos.stream()
                 .map(winningNumbers::determineRank)
+                .filter(Rank::isWinning)
                 .collect(Collectors.toMap(rank -> rank, rank -> 1, Integer::sum));
         return new WinningResult(matchResult);
     }

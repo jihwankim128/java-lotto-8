@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lotto.domain.LottoMachine;
-import lotto.domain.WinningLotto;
+import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
@@ -31,7 +31,7 @@ public class LottoController {
 
         Lotto winningLotto = readWinningLotto();
         int bonusNumber = readBonusNumber();
-        WinningLotto winning = new WinningLotto(winningLotto, bonusNumber);
+        WinningNumbers winning = new WinningNumbers(winningLotto, bonusNumber);
         Map<Rank, Integer> ranks = determineRank(purchaseLottos, winning);
         double profit = calculateProfit(ranks);
 
@@ -67,7 +67,7 @@ public class LottoController {
         }
     }
 
-    private Map<Rank, Integer> determineRank(Lottos lottos, WinningLotto winning) {
+    private Map<Rank, Integer> determineRank(Lottos lottos, WinningNumbers winning) {
         return lottos.lottos().stream()
                 .map(winning::determineRank)
                 .filter(rank -> rank != Rank.NONE)

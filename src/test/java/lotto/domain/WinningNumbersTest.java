@@ -8,7 +8,7 @@ import lotto.domain.vo.Lotto;
 import lotto.domain.vo.Rank;
 import org.junit.jupiter.api.Test;
 
-class WinningLottoTest {
+class WinningNumbersTest {
 
     @Test
     void 로또_번호와_보너스_번호가_중복되면_예외가_발생한다() {
@@ -17,7 +17,7 @@ class WinningLottoTest {
         int bonusNumber = 6;
 
         // when & then
-        assertThatThrownBy(() -> new WinningLotto(lotto, bonusNumber))
+        assertThatThrownBy(() -> new WinningNumbers(lotto, bonusNumber))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -26,11 +26,11 @@ class WinningLottoTest {
         // given
         Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
         int bonusNumber = 7;
-        WinningLotto winningLotto = new WinningLotto(lotto, bonusNumber);
+        WinningNumbers winningNumbers = new WinningNumbers(lotto, bonusNumber);
         Lotto other = new Lotto(List.of(1, 2, 3, 4, 5, 6));
 
         // when
-        Rank rank = winningLotto.determineRank(other);
+        Rank rank = winningNumbers.determineRank(other);
 
         // then
         assertThat(rank).isEqualTo(Rank.FIRST);

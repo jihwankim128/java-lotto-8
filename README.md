@@ -57,10 +57,9 @@
     * LottoGenerator 객체 필요
     * Lottos 객체 필요
 3. 당첨 번호와 보너스 번호를 입력받는다.
-    * WinningLotto 객체 필요
+    * WinningNumbers 객체 필요
 4. 당첨 확인을 한다.
-    * WinningConfirmation 객체 필요
-    * WinningLotto 객체 필요
+    * WinningNumbers 객체 필요
     * Lotto 객체 필요
     * Rank 객체 필요
 5. 수익금을 계산한다.
@@ -87,7 +86,7 @@
 
 - [x] 로또 구매 금액으로 로또 자동 구매
 
-### WinningLotto
+### WinningNumbers
 
 - [x] 로또 번호와 보너스 번호 중복 시 예외 발생
 - [x] 로또 정보로 당첨 순위 판별

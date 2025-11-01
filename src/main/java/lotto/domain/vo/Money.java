@@ -18,6 +18,9 @@ public record Money(int money) {
     }
 
     public int calculateQuantity(int unitPrice) {
+        if (unitPrice <= 0) {
+            throw new IllegalArgumentException("단위 가격은 양수여야 합니다.");
+        }
         return money / unitPrice;
     }
 

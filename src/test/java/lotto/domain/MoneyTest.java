@@ -41,6 +41,19 @@ class MoneyTest {
         assertThat(count).isEqualTo(10);
     }
 
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0})
+    void 단위가격이_양수가_아니라면_예외가_발생한다() {
+        // given
+        int unitPrice = -1000;
+        Money money = new Money(10000);
+
+        // when & then
+        assertThatThrownBy(() -> money.calculateQuantity(unitPrice))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
     @Test
     void 비교_부분이_금액의_몇퍼센테이지인지_계산할_수_있다() {
         // given

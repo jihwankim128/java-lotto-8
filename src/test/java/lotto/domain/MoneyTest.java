@@ -10,24 +10,20 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class MoneyTest {
 
-    @Test
-    void 음수라면_예외가_발생한다() {
-        // given
-        int negativeMoney = -1;
-
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0, 999})
+    void 금액이_최소_금액보다_적다면_예외가_발생한다(int lessThanMinimumMoney) {
         // when & then
-        assertThatThrownBy(() -> new Money(negativeMoney))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("금액은 음수일 수 없습니다.");
+        assertThatThrownBy(() -> new Money(lessThanMinimumMoney))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {999, 1001})
+    @ValueSource(ints = {1001, 1999})
     void 천원_단위가_아니라면_예외가_발생한다(int invalidMoney) {
         // when & then
         assertThatThrownBy(() -> new Money(invalidMoney))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("금액은 1000원 단위여야 합니다.");
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

@@ -9,8 +9,8 @@ public record Money(int money) {
     }
 
     private static void validateMoney(int money) {
-        if (money < 0) {
-            throw new IllegalArgumentException("금액은 음수일 수 없습니다.");
+        if (money < UNIT) {
+            throw new IllegalArgumentException("최소 금액은 %s원 입니다.".formatted(UNIT));
         }
         if (money % UNIT != 0) {
             throw new IllegalArgumentException("금액은 %s원 단위여야 합니다.".formatted(UNIT));

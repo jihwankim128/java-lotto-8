@@ -1,6 +1,7 @@
 package lotto.application;
 
 import java.util.List;
+import lotto.application.dto.PurchaseDto;
 import lotto.domain.LottoMachine;
 import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
@@ -26,7 +27,8 @@ public class LottoController {
     public void run() {
         Money money = readMoney();
         Lottos purchaseLottos = lottoMachine.issue(money);
-        outputView.printPurchaseResult(purchaseLottos.lottos());
+        PurchaseDto purchaseDto = PurchaseDto.from(purchaseLottos);
+        outputView.printPurchaseResult(purchaseDto);
 
         Lotto winningLotto = readWinningLotto();
         LottoNumber bonusNumber = readBonusNumber();

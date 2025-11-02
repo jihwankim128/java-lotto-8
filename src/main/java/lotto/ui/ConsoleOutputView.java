@@ -3,27 +3,32 @@ package lotto.ui;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Map;
-import lotto.domain.vo.Lotto;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import lotto.application.dto.LottoNumbersDto;
+import lotto.application.dto.PurchaseDto;
 import lotto.domain.vo.Rank;
 
 public class ConsoleOutputView {
+
+    public static final Collector<CharSequence, ?, String> BRACKET_JOINER = Collectors.joining(", ", "[", "]");
+
+    private static String formatBracket(List<Integer> numbers) {
+        return numbers.stream()
+                .map(String::valueOf)
+                .collect(BRACKET_JOINER);
+    }
 
     public void printError(String message) {
         System.out.println("[ERROR]" + message);
     }
 
-    public void printPurchaseResult(List<Lotto> lottos) {
+    public void printPurchaseResult(PurchaseDto purchase) {
         System.out.println();
-        System.out.println(lottos.size() + "개를 구매했습니다.");
-        for (Lotto lotto : lottos) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("[");
-            for (int number : lotto.getNumbers()) {
-                sb.append(number).append(", ");
-            }
-            sb.delete(sb.length() - 2, sb.length());
-            sb.append("]");
-            System.out.println(sb);
+        System.out.println(purchase.quantity() + "개를 구매했습니다.");
+        for (LottoNumbersDto lottos : purchase.lottos()) {
+            String formatted = formatBracket(lottos.numbers());
+            System.out.println(formatted);
         }
         System.out.println();
     }

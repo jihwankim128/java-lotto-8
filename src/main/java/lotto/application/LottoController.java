@@ -2,6 +2,7 @@ package lotto.application;
 
 import java.util.List;
 import lotto.application.dto.PurchaseDto;
+import lotto.application.dto.WinningStatisticsDto;
 import lotto.domain.LottoMachine;
 import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
@@ -35,9 +36,9 @@ public class LottoController {
         WinningNumbers winningNumbers = new WinningNumbers(winningLotto, bonusNumber);
         WinningResult winningResult = purchaseLottos.generateWinningResult(winningNumbers);
         double profitRatio = winningResult.calculateProfitRatio(money);
+        WinningStatisticsDto winningStatisticsDto = WinningStatisticsDto.of(winningResult, profitRatio);
 
-        outputView.printWinningStatistics(winningResult.result());
-        outputView.printProfitRate(profitRatio);
+        outputView.printWinningStatistics(winningStatisticsDto);
     }
 
     private Money readMoney() {

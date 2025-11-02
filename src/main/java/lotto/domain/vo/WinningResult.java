@@ -15,6 +15,10 @@ public record WinningResult(Map<Rank, Integer> result) {
         return purchaseMoney.calculatePercentageOf(totalPrize);
     }
 
+    public int countByRank(Rank rank) {
+        return result.getOrDefault(rank, 0);
+    }
+
     private long calculatePrizeForEntry(Map.Entry<Rank, Integer> entry) {
         return entry.getKey()
                 .calculateTotalPrize(entry.getValue());

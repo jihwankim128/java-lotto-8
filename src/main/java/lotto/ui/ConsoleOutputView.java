@@ -1,22 +1,38 @@
 package lotto.ui;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import lotto.application.dto.LottoNumbersDto;
 import lotto.application.dto.PurchaseDto;
-import lotto.domain.vo.Rank;
+import lotto.application.dto.WinningDto;
+import lotto.application.dto.WinningStatisticsDto;
 
 public class ConsoleOutputView {
 
-    public static final Collector<CharSequence, ?, String> BRACKET_JOINER = Collectors.joining(", ", "[", "]");
+    private static final Collector<CharSequence, ?, String> BRACKET_JOINER = Collectors.joining(", ", "[", "]");
+    private static final NumberFormat PRIZE_FORMATTER = NumberFormat.getInstance();
+    private static final DecimalFormat RATIO_FORMATTER = new DecimalFormat("#,##0.0");
 
     private static String formatBracket(List<Integer> numbers) {
         return numbers.stream()
                 .map(String::valueOf)
                 .collect(BRACKET_JOINER);
+    }
+
+    private static String getWinningFormat(boolean isSecond) {
+        if (isSecond) {
+            return "%d개 일치, 보너스 볼 일치 (%s원) - %d개%n";
+        }
+        return "%d개 일치 (%s원) - %d개%n";
+    }
+
+    private static void printWinningRow(WinningDto winning) {
+        String formattedPrize = PRIZE_FORMATTER.format(winning.prize());
+        String winningFormat = getWinningFormat(winning.second());
+        System.out.printf(winningFormat, winning.matchCount(), formattedPrize, winning.count());
     }
 
     public void printError(String message) {
@@ -33,25 +49,15 @@ public class ConsoleOutputView {
         System.out.println();
     }
 
-    public void printWinningStatistics(Map<Rank, Integer> winnings) {
+    public void printWinningStatistics(WinningStatisticsDto winningStatistics) {
         System.out.println();
         System.out.println("당첨 통계");
         System.out.println("---");
-        for (Rank rank : Rank.values()) {
-            int matchCount = rank.getMatchCount();
-            long prize = rank.getPrize();
-            String amountFormat = NumberFormat.getInstance().format(prize);
 
-            int winningCount = winnings.getOrDefault(rank, 0);
-            if (Rank.SECOND == rank) {
-                System.out.println(matchCount + "개 일치, 보너스 볼 일치 (" + amountFormat + "원) - " + winningCount + "개");
-                continue;
-            }
-            System.out.println(matchCount + "개 일치 (" + amountFormat + "원) - " + winningCount + "개");
-        }
-    }
+        winningStatistics.winningResult()
+                .forEach(ConsoleOutputView::printWinningRow);
 
-    public void printProfitRate(double profitRate) {
-        System.out.println("총 수익률은 " + String.format("%.1f", profitRate) + "%입니다.");
+        String formattedProfitRatio = RATIO_FORMATTER.format(winningStatistics.profitRatio());
+        System.out.printf("총 수익률은 %s%%입니다.%n", formattedProfitRatio);
     }
 }

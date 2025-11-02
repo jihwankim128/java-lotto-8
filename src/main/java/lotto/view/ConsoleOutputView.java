@@ -1,14 +1,14 @@
-package lotto.ui;
+package lotto.view;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import lotto.application.dto.LottoNumbersDto;
-import lotto.application.dto.PurchaseDto;
-import lotto.application.dto.WinningDto;
-import lotto.application.dto.WinningStatisticsDto;
+import lotto.controller.dto.LottoNumbersDto;
+import lotto.controller.dto.PurchaseDto;
+import lotto.controller.dto.WinningDto;
+import lotto.controller.dto.WinningStatisticsDto;
 
 public class ConsoleOutputView {
 

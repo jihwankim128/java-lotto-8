@@ -1,10 +1,10 @@
 package lotto;
 
-import lotto.application.LottoController;
+import lotto.controller.LottoController;
 import lotto.domain.LottoMachine;
 import lotto.external.RandomLottoGenerator;
-import lotto.ui.ConsoleInputView;
-import lotto.ui.ConsoleOutputView;
+import lotto.view.ConsoleInputView;
+import lotto.view.ConsoleOutputView;
 
 public class Application {
     public static void main(String[] args) {

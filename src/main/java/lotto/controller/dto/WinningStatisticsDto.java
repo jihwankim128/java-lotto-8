@@ -1,4 +1,4 @@
-package lotto.application.dto;
+package lotto.controller.dto;
 
 import java.util.Arrays;
 import java.util.Comparator;

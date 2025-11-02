@@ -1,8 +1,8 @@
-package lotto.application;
+package lotto.controller;
 
 import java.util.List;
-import lotto.application.dto.PurchaseDto;
-import lotto.application.dto.WinningStatisticsDto;
+import lotto.controller.dto.PurchaseDto;
+import lotto.controller.dto.WinningStatisticsDto;
 import lotto.domain.LottoMachine;
 import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
@@ -10,8 +10,8 @@ import lotto.domain.vo.LottoNumber;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
 import lotto.domain.vo.WinningResult;
-import lotto.ui.ConsoleInputView;
-import lotto.ui.ConsoleOutputView;
+import lotto.view.ConsoleInputView;
+import lotto.view.ConsoleOutputView;
 
 public class LottoController {
 

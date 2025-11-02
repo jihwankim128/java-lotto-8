@@ -28,12 +28,12 @@ class WinningNumbersTest {
         Lotto lotto = Lotto.generateOf(List.of(1, 2, 3, 4, 5, 6));
         LottoNumber bonusNumber = new LottoNumber(7);
         WinningNumbers winningNumbers = new WinningNumbers(lotto, bonusNumber);
-        Lotto other = Lotto.generateOf(List.of(1, 2, 3, 4, 5, 6));
+        Lotto other = Lotto.generateOf(List.of(1, 2, 3, 4, 5, 7));
 
         // when
         Rank rank = winningNumbers.determineRank(other);
 
         // then
-        assertThat(rank).isEqualTo(Rank.FIRST);
+        assertThat(rank).isEqualTo(Rank.SECOND);
     }
 }

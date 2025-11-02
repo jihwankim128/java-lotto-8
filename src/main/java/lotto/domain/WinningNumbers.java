@@ -18,8 +18,8 @@ public class WinningNumbers {
     }
 
     public Rank determineRank(Lotto other) {
-        int count = lotto.countMatching(other);
-        boolean bonus = lotto.match(bonusNumber);
+        int count = other.countMatching(lotto);
+        boolean bonus = other.match(bonusNumber);
         return Rank.of(count, bonus);
     }
 }

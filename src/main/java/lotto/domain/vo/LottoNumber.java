@@ -2,8 +2,8 @@ package lotto.domain.vo;
 
 public record LottoNumber(int number) {
 
-    private static final int MIN_RANGE = 1;
-    private static final int MAX_RANGE = 45;
+    public static final int MIN_RANGE = 1;
+    public static final int MAX_RANGE = 45;
 
     public LottoNumber {
         validateLottoNumber(number);

@@ -3,6 +3,7 @@ package lotto.controller;
 import java.util.List;
 import lotto.controller.dto.PurchaseDto;
 import lotto.controller.dto.WinningStatisticsDto;
+import lotto.domain.LottoGenerator;
 import lotto.domain.LottoMachine;
 import lotto.domain.WinningNumbers;
 import lotto.domain.vo.Lotto;
@@ -17,17 +18,19 @@ public class LottoController {
 
     private final ConsoleInputView inputView;
     private final ConsoleOutputView outputView;
-    private final LottoMachine lottoMachine;
+    private final LottoGenerator lottoGenerator;
 
-    public LottoController(ConsoleInputView inputView, ConsoleOutputView outputView, LottoMachine lottoMachine) {
+    public LottoController(ConsoleInputView inputView, ConsoleOutputView outputView, LottoGenerator lottoGenerator) {
         this.inputView = inputView;
         this.outputView = outputView;
-        this.lottoMachine = lottoMachine;
+        this.lottoGenerator = lottoGenerator;
     }
 
     public void run() {
         Money money = readMoney();
-        Lottos purchaseLottos = lottoMachine.issue(money);
+        LottoMachine lottoMachine = new LottoMachine(lottoGenerator, money);
+
+        Lottos purchaseLottos = lottoMachine.issue();
         PurchaseDto purchaseDto = PurchaseDto.from(purchaseLottos);
         outputView.printPurchaseResult(purchaseDto);
 

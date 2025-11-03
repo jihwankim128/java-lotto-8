@@ -11,15 +11,14 @@ import org.junit.jupiter.api.Test;
 class LottoMachineTest {
 
     private final LottoGenerator generator = () -> Lotto.generateOf(List.of(1, 2, 3, 4, 5, 6));
-    private final LottoMachine machine = new LottoMachine(generator);
+    private final Money purchaseMoney = new Money(10000);
+    private final LottoMachine machine = new LottoMachine(generator, purchaseMoney);
 
     @Test
     void 금액이_주어지면_로또를_구매된다() {
         // given: 10000원이 주어졌을 때,
-        Money money = new Money(10000);
-
         // when: 로또를 발행하면
-        Lottos purchaseLottos = machine.issue(money);
+        Lottos purchaseLottos = machine.issue();
 
         // then: 10장이 구매된다
         assertThat(purchaseLottos.lottos()).hasSize(10);

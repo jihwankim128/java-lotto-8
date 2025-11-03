@@ -10,18 +10,22 @@ public class LottoMachine {
 
     private static final int LOTTO_PRICE = 1000;
 
-    private final LottoGenerator lottoGenerator;
+    private final LottoGenerator generator;
+    private final Money purchaseMoney;
 
-    public LottoMachine(LottoGenerator lottoGenerator) {
-        this.lottoGenerator = lottoGenerator;
+    public LottoMachine(LottoGenerator generator, Money purchaseMoney) {
+        this.generator = generator;
+        this.purchaseMoney = purchaseMoney;
     }
 
-    public Lottos issue(Money money) {
-        int quantity = money.calculateQuantity(LOTTO_PRICE);
+    public Lottos issue() {
+        int quantity = purchaseMoney.calculateQuantity(LOTTO_PRICE);
+
         List<Lotto> lottos = new ArrayList<>(quantity);
         for (int i = 0; i < quantity; i++) {
-            lottos.add(lottoGenerator.generate());
+            lottos.add(generator.generate());
         }
+
         return new Lottos(lottos);
     }
 }

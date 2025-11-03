@@ -1,8 +1,4 @@
-package lotto.domain;
-
-import lotto.domain.vo.Lotto;
-import lotto.domain.vo.LottoNumber;
-import lotto.domain.vo.Rank;
+package lotto.domain.vo;
 
 public class WinningNumbers {
 

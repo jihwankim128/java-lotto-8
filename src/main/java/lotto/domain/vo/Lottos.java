@@ -1,7 +1,6 @@
 package lotto.domain.vo;
 
 import java.util.List;
-import lotto.domain.WinningNumbers;
 
 public record Lottos(List<Lotto> lottos) {
 

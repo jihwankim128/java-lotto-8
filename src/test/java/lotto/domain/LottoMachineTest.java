@@ -9,6 +9,7 @@ import lotto.domain.vo.LottoNumber;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
 import lotto.domain.vo.Rank;
+import lotto.domain.vo.WinningNumbers;
 import lotto.domain.vo.WinningResult;
 import org.junit.jupiter.api.Test;
 

@@ -7,6 +7,7 @@ import java.util.List;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.LottoNumber;
 import lotto.domain.vo.Rank;
+import lotto.domain.vo.WinningNumbers;
 import org.junit.jupiter.api.Test;
 
 class WinningNumbersTest {

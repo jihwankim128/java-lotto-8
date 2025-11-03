@@ -3,7 +3,6 @@ package lotto.domain.vo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import lotto.domain.WinningNumbers;
 import org.junit.jupiter.api.Test;
 
 class LottosTest {

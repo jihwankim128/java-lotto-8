@@ -8,6 +8,7 @@ import lotto.domain.vo.Lotto;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
 import lotto.domain.vo.Rank;
+import lotto.domain.vo.WinningNumbers;
 import lotto.domain.vo.WinningResult;
 
 public class LottoMachine {

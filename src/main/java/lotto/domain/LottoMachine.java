@@ -2,9 +2,13 @@ package lotto.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.Money;
+import lotto.domain.vo.Rank;
+import lotto.domain.vo.WinningResult;
 
 public class LottoMachine {
 
@@ -27,5 +31,17 @@ public class LottoMachine {
         }
 
         return new Lottos(lottos);
+    }
+
+    public WinningResult analyzeWinningResult(Lottos purchaseLottos, WinningNumbers winningNumbers) {
+        List<Rank> ranks = purchaseLottos.determineRanks(winningNumbers);
+        Map<Rank, Integer> winningResult = ranks.stream()
+                .collect(Collectors.toMap(rank -> rank, rank -> 1, Integer::sum));
+        return new WinningResult(winningResult);
+    }
+
+    public double calculateProfitRatio(WinningResult winningResult) {
+        long totalPrize = winningResult.calculateTotalPrize();
+        return purchaseMoney.calculatePercentageOf(totalPrize);
     }
 }

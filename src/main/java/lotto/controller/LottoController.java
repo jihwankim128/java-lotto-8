@@ -35,10 +35,9 @@ public class LottoController {
         outputView.printPurchaseResult(purchaseDto);
 
         WinningNumbers winningNumbers = readWinningNumbers();
-        WinningResult winningResult = purchaseLottos.generateWinningResult(winningNumbers);
-        double profitRatio = winningResult.calculateProfitRatio(money);
+        WinningResult winningResult = lottoMachine.analyzeWinningResult(purchaseLottos, winningNumbers);
+        double profitRatio = lottoMachine.calculateProfitRatio(winningResult);
         WinningStatisticsDto winningStatisticsDto = WinningStatisticsDto.of(winningResult, profitRatio);
-
         outputView.printWinningStatistics(winningStatisticsDto);
     }
 

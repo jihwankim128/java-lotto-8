@@ -8,11 +8,10 @@ public record WinningResult(Map<Rank, Integer> result) {
         this.result = Map.copyOf(result);
     }
 
-    public double calculateProfitRatio(Money purchaseMoney) {
-        long totalPrize = result.entrySet().stream()
+    public long calculateTotalPrize() {
+        return result.entrySet().stream()
                 .mapToLong(this::calculatePrizeForEntry)
                 .sum();
-        return purchaseMoney.calculatePercentageOf(totalPrize);
     }
 
     public int countByRank(Rank rank) {

@@ -30,7 +30,6 @@ public class LottoMachine {
         for (int i = 0; i < quantity; i++) {
             lottos.add(generator.generate());
         }
-
         return new Lottos(lottos);
     }
 

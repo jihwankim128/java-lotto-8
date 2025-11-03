@@ -1,4 +1,4 @@
-package lotto.controller.dto;
+package lotto.ui.dto;
 
 import lotto.domain.vo.Rank;
 

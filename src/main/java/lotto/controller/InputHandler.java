@@ -1,4 +1,4 @@
-package lotto.controller.handler;
+package lotto.controller;
 
 import lotto.domain.vo.Money;
 import lotto.domain.vo.WinningNumbers;

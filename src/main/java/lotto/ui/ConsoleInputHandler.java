@@ -2,16 +2,23 @@ package lotto.ui;
 
 import java.util.List;
 import java.util.function.Supplier;
-import lotto.controller.handler.InputHandler;
+import lotto.controller.InputHandler;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.LottoNumber;
 import lotto.domain.vo.Money;
 import lotto.domain.vo.WinningNumbers;
+import lotto.ui.view.ConsoleInputView;
+import lotto.ui.view.ConsoleOutputView;
 
 public class ConsoleInputHandler implements InputHandler {
 
-    private final ConsoleInputView inputView = new ConsoleInputView();
-    private final ConsoleOutputView outputView = new ConsoleOutputView();
+    private final ConsoleInputView inputView;
+    private final ConsoleOutputView outputView;
+
+    public ConsoleInputHandler(ConsoleInputView inputView, ConsoleOutputView outputView) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+    }
 
     @Override
     public Money readMoney() {

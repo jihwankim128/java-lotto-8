@@ -1,4 +1,4 @@
-package lotto.controller.dto;
+package lotto.ui.dto;
 
 import java.util.List;
 import lotto.domain.vo.Lotto;

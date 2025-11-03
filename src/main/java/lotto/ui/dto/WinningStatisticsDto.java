@@ -11,9 +11,14 @@ public record WinningStatisticsDto(List<WinningDto> winningResult, double profit
     public static WinningStatisticsDto of(WinningResult winningResult, double profitRatio) {
         List<WinningDto> winnings = Arrays.stream(Rank.values())
                 .filter(Rank::isWinning)
-                .sorted(Comparator.reverseOrder())
+                .sorted(getComparator())
                 .map(rank -> WinningDto.of(rank, winningResult.countByRank(rank)))
                 .toList();
         return new WinningStatisticsDto(winnings, profitRatio);
+    }
+
+    private static Comparator<Rank> getComparator() {
+        return Comparator.comparingInt(Rank::getMatchCount)
+                .thenComparing(Comparator.reverseOrder());
     }
 }

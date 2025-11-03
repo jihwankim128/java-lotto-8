@@ -3,15 +3,13 @@ package lotto.domain.vo;
 import java.util.HashSet;
 import java.util.List;
 
-public class Lotto {
+public record Lotto(List<LottoNumber> numbers) {
 
     public static final int LOTTO_NUMBER_COUNT = 6;
 
-    private final List<LottoNumber> numbers;
-
-    private Lotto(List<LottoNumber> numbers) {
+    public Lotto(List<LottoNumber> numbers) {
         validate(numbers);
-        this.numbers = numbers;
+        this.numbers = List.copyOf(numbers);
     }
 
     public static Lotto generateOf(List<Integer> numbers) {
@@ -38,11 +36,5 @@ public class Lotto {
 
     public boolean match(LottoNumber number) {
         return numbers.contains(number);
-    }
-
-    public List<Integer> getNumbers() {
-        return numbers.stream()
-                .map(LottoNumber::number)
-                .toList();
     }
 }

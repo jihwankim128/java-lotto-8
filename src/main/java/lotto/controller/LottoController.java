@@ -34,9 +34,7 @@ public class LottoController {
         PurchaseDto purchaseDto = PurchaseDto.from(purchaseLottos);
         outputView.printPurchaseResult(purchaseDto);
 
-        Lotto winningLotto = readWinningLotto();
-        LottoNumber bonusNumber = readBonusNumber();
-        WinningNumbers winningNumbers = new WinningNumbers(winningLotto, bonusNumber);
+        WinningNumbers winningNumbers = readWinningNumbers();
         WinningResult winningResult = purchaseLottos.generateWinningResult(winningNumbers);
         double profitRatio = winningResult.calculateProfitRatio(money);
         WinningStatisticsDto winningStatisticsDto = WinningStatisticsDto.of(winningResult, profitRatio);
@@ -54,22 +52,18 @@ public class LottoController {
         }
     }
 
-    private Lotto readWinningLotto() {
+    private WinningNumbers readWinningNumbers() {
         try {
             List<Integer> winningNumbers = inputView.readWinningNumbers();
-            return Lotto.generateOf(winningNumbers);
+            Lotto winningLotto = Lotto.generateOf(winningNumbers);
+
+            int bonusNumber = inputView.readBonusNumber();
+            LottoNumber lottoNumber = new LottoNumber(bonusNumber);
+
+            return new WinningNumbers(winningLotto, lottoNumber);
         } catch (IllegalArgumentException e) {
             outputView.printError(e.getMessage());
-            return readWinningLotto();
-        }
-    }
-
-    private LottoNumber readBonusNumber() {
-        try {
-            int bonusNumber = inputView.readBonusNumber();
-            return new LottoNumber(bonusNumber);
-        } catch (IllegalArgumentException e) {
-            return readBonusNumber();
+            return readWinningNumbers();
         }
     }
 }

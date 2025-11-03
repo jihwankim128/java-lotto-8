@@ -1,8 +1,8 @@
 package lotto;
 
-import lotto.controller.InputHandler;
-import lotto.controller.LottoController;
-import lotto.controller.OutputPresenter;
+import lotto.application.InputHandler;
+import lotto.application.LottoController;
+import lotto.application.OutputPresenter;
 import lotto.domain.LottoGenerator;
 import lotto.external.RandomLottoGenerator;
 import lotto.ui.ConsoleInputHandler;

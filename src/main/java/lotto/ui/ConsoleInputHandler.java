@@ -2,7 +2,7 @@ package lotto.ui;
 
 import java.util.List;
 import java.util.function.Supplier;
-import lotto.controller.InputHandler;
+import lotto.application.InputHandler;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.LottoNumber;
 import lotto.domain.vo.Money;

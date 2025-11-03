@@ -1,6 +1,6 @@
 package lotto.ui;
 
-import lotto.controller.OutputPresenter;
+import lotto.application.OutputPresenter;
 import lotto.domain.vo.Lottos;
 import lotto.domain.vo.WinningResult;
 import lotto.ui.dto.PurchaseDto;

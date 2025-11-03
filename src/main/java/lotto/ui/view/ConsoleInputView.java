@@ -13,7 +13,7 @@ public class ConsoleInputView {
 
     public List<Integer> readWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
-        return readNumbers();
+        return parseNumbers(Console.readLine());
     }
 
     public int readBonusNumber() {
@@ -21,15 +21,15 @@ public class ConsoleInputView {
         return parseNumber(Console.readLine());
     }
 
-    private List<Integer> readNumbers() {
-        return Arrays.stream(Console.readLine().split(","))
+    private List<Integer> parseNumbers(String input) {
+        return Arrays.stream(input.split(","))
                 .map(this::parseNumber)
                 .toList();
     }
 
-    private int parseNumber(String textNumber) {
+    private int parseNumber(String input) {
         try {
-            return Integer.parseInt(textNumber.strip());
+            return Integer.parseInt(input.strip());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("정수 형식이 아닙니다.");
         }

@@ -1,8 +1,10 @@
 package lotto.domain;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.Lottos;
@@ -14,6 +16,8 @@ import lotto.domain.vo.WinningResult;
 public class LottoMachine {
 
     private static final int LOTTO_PRICE = 1_000;
+    private static final Collector<Rank, ?, EnumMap<Rank, Integer>> WINNING_RESULT_CONVERTER =
+            Collectors.toMap(rank -> rank, rank -> 1, Integer::sum, () -> new EnumMap<>(Rank.class));
 
     private final LottoGenerator generator;
 
@@ -23,7 +27,6 @@ public class LottoMachine {
 
     public Lottos issue(Money purchaseMoney) {
         int quantity = purchaseMoney.calculateQuantity(LOTTO_PRICE);
-
         List<Lotto> lottos = new ArrayList<>(quantity);
         for (int i = 0; i < quantity; i++) {
             lottos.add(generator.generate());
@@ -34,7 +37,7 @@ public class LottoMachine {
     public WinningResult analyzeWinningResult(Lottos purchaseLottos, WinningNumbers winningNumbers) {
         List<Rank> ranks = purchaseLottos.determineRanks(winningNumbers);
         Map<Rank, Integer> winningResult = ranks.stream()
-                .collect(Collectors.toMap(rank -> rank, rank -> 1, Integer::sum));
+                .collect(WINNING_RESULT_CONVERTER);
         return new WinningResult(winningResult);
     }
 

@@ -1,4 +1,4 @@
-package lotto.view;
+package lotto.ui;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -36,7 +36,7 @@ public class ConsoleOutputView {
     }
 
     public void printError(String message) {
-        System.out.println("[ERROR]" + message);
+        System.out.println("[ERROR] " + message);
     }
 
     public void printPurchaseResult(PurchaseDto purchase) {

@@ -1,4 +1,4 @@
-package lotto.view;
+package lotto.ui;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class ConsoleInputView {
         try {
             return Integer.parseInt(textNumber.strip());
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("[ERROR] 정수 형식이 아닙니다.");
+            throw new IllegalArgumentException("정수 형식이 아닙니다.");
         }
     }
 }

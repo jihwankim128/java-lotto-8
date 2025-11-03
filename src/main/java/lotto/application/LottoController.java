@@ -21,13 +21,13 @@ public class LottoController {
 
     public void run() {
         Money money = inputHandler.readMoney();
-        LottoMachine lottoMachine = new LottoMachine(lottoGenerator, money);
-        Lottos purchaseLottos = lottoMachine.issue();
+        LottoMachine lottoMachine = new LottoMachine(lottoGenerator);
+        Lottos purchaseLottos = lottoMachine.issue(money);
         presenter.presentPurchase(purchaseLottos);
 
         WinningNumbers winningNumbers = inputHandler.readWinningNumbers();
         WinningResult winningResult = lottoMachine.analyzeWinningResult(purchaseLottos, winningNumbers);
-        double profitRatio = lottoMachine.calculateProfitRatio(winningResult);
+        double profitRatio = lottoMachine.calculateProfitRatio(winningResult, money);
         presenter.presentResult(winningResult, profitRatio);
     }
 }

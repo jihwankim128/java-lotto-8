@@ -16,14 +16,12 @@ public class LottoMachine {
     private static final int LOTTO_PRICE = 1_000;
 
     private final LottoGenerator generator;
-    private final Money purchaseMoney;
 
-    public LottoMachine(LottoGenerator generator, Money purchaseMoney) {
+    public LottoMachine(LottoGenerator generator) {
         this.generator = generator;
-        this.purchaseMoney = purchaseMoney;
     }
 
-    public Lottos issue() {
+    public Lottos issue(Money purchaseMoney) {
         int quantity = purchaseMoney.calculateQuantity(LOTTO_PRICE);
 
         List<Lotto> lottos = new ArrayList<>(quantity);
@@ -40,7 +38,7 @@ public class LottoMachine {
         return new WinningResult(winningResult);
     }
 
-    public double calculateProfitRatio(WinningResult winningResult) {
+    public double calculateProfitRatio(WinningResult winningResult, Money purchaseMoney) {
         long totalPrize = winningResult.calculateTotalPrize();
         return purchaseMoney.calculatePercentageOf(totalPrize);
     }

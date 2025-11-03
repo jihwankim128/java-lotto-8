@@ -13,7 +13,7 @@ import lotto.domain.vo.WinningResult;
 
 public class LottoMachine {
 
-    private static final int LOTTO_PRICE = 1000;
+    private static final int LOTTO_PRICE = 1_000;
 
     private final LottoGenerator generator;
     private final Money purchaseMoney;

@@ -2,26 +2,26 @@ package lotto.domain.vo;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Lotto {
 
     public static final int LOTTO_NUMBER_COUNT = 6;
-    
+
     private final List<LottoNumber> numbers;
 
     private Lotto(List<LottoNumber> numbers) {
+        validate(numbers);
         this.numbers = numbers;
     }
 
     public static Lotto generateOf(List<Integer> numbers) {
-        validate(numbers);
-        return numbers.stream()
+        List<LottoNumber> lottoNumbers = numbers.stream()
                 .map(LottoNumber::new)
-                .collect(Collectors.collectingAndThen(Collectors.toUnmodifiableList(), Lotto::new));
+                .toList();
+        return new Lotto(lottoNumbers);
     }
 
-    private static void validate(List<Integer> numbers) {
+    private static void validate(List<LottoNumber> numbers) {
         if (numbers.size() != LOTTO_NUMBER_COUNT) {
             throw new IllegalArgumentException("로또 번호는 %s개여야 합니다.".formatted(LOTTO_NUMBER_COUNT));
         }

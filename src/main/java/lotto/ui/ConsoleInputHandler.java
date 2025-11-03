@@ -1,6 +1,7 @@
 package lotto.ui;
 
 import java.util.List;
+import java.util.function.Supplier;
 import lotto.controller.handler.InputHandler;
 import lotto.domain.vo.Lotto;
 import lotto.domain.vo.LottoNumber;
@@ -14,34 +15,31 @@ public class ConsoleInputHandler implements InputHandler {
 
     @Override
     public Money readMoney() {
-        try {
+        return retryOnError(() -> {
             int money = inputView.readPurchaseAmount();
             return new Money(money);
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            return readMoney();
-        }
+        });
     }
 
     @Override
     public WinningNumbers readWinningNumbers() {
-        try {
-            Lotto winningLotto = readWinningLotto();
-            LottoNumber bonusNumber = readBonusNumber();
-            return new WinningNumbers(winningLotto, bonusNumber);
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-            return readWinningNumbers();
+        return retryOnError(() -> {
+            List<Integer> winningNumbers = inputView.readWinningNumbers();
+            int bonusNumber = inputView.readBonusNumber();
+            return new WinningNumbers(
+                    Lotto.generateOf(winningNumbers),
+                    new LottoNumber(bonusNumber)
+            );
+        });
+    }
+
+    private <T> T retryOnError(Supplier<T> supplier) {
+        while (true) {
+            try {
+                return supplier.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
         }
-    }
-
-    private LottoNumber readBonusNumber() {
-        int bonusNumber = inputView.readBonusNumber();
-        return new LottoNumber(bonusNumber);
-    }
-
-    private Lotto readWinningLotto() {
-        List<Integer> winningNumbers = inputView.readWinningNumbers();
-        return Lotto.generateOf(winningNumbers);
     }
 }
